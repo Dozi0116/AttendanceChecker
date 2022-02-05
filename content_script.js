@@ -1,3 +1,5 @@
+import elementClasses from './element_classes'
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   switch (request.method) {
     case 'check':
@@ -11,7 +13,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 
 function checkAttendance(request) {
   const requireMemberNames = request.members
-  const attendedMemberDivs = document.getElementsByClassName("zWGUib")
+  const attendedMemberDivs = document.getElementsByClassName(elementClasses.ATTENDED_MENBER_CLASS)
 
   if(attendedMemberDivs.length == 0) {
     alert('参加者の一覧が見当たりません。参加者一覧を開いていますか？(開いててもこの表示が出るならMeetの仕様が変わったのかもしれない…😇)')
@@ -39,7 +41,7 @@ function checkAttendance(request) {
 }
 
 function getAttendedMember () {
-  const attendedMemberDivs = document.getElementsByClassName("zWGUib")
+  const attendedMemberDivs = document.getElementsByClassName(elementClasses.ATTENDED_MENBER_CLASS)
 
   if(attendedMemberDivs.length == 0) {
     alert('参加者の一覧が見当たりません。参加者一覧を開いていますか？(開いててもこの表示が出るならMeetの仕様が変わったのかもしれない…😇)')
