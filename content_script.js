@@ -1,4 +1,7 @@
-import elementClasses from './element_classes'
+const elementClasses = {
+    ATTENDED_MEMBER_CLASS: 'zWGUib',
+    SCHEDULED_MEMBER_CLASS: 'cHB8o',
+}
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   switch (request.method) {
@@ -16,7 +19,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 
 function checkAttendance(request) {
   const requireMemberNames = request.members
-  const attendedMemberDivs = document.getElementsByClassName(elementClasses.ATTENDED_MENBER_CLASS)
+  const attendedMemberDivs = document.getElementsByClassName(elementClasses.ATTENDED_MEMBER_CLASS)
 
   if(attendedMemberDivs.length == 0) {
     alert('参加者の一覧が見当たりません。参加者一覧を開いていますか？(開いててもこの表示が出るならMeetの仕様が変わったのかもしれない…😇)')
@@ -44,7 +47,7 @@ function checkAttendance(request) {
 }
 
 function getAttendedMember () {
-  const attendedMemberDivs = document.getElementsByClassName(elementClasses.ATTENDED_MENBER_CLASS)
+  const attendedMemberDivs = document.getElementsByClassName(elementClasses.ATTENDED_MEMBER_CLASS)
 
   if(attendedMemberDivs.length == 0) {
     alert('参加者の一覧が見当たりません。参加者一覧を開いていますか？(開いててもこの表示が出るならMeetの仕様が変わったのかもしれない…😇)')
@@ -64,7 +67,7 @@ function getScheduledMember () {
     return []
   }
 
-  const scheduledMemberNames = Array.from(scheduledMemberDivs).map(span => span.innerHTML)
+  const scheduledMemberNames = Array.from(scheduledMemberDivs).map(span => span.children[0].innerHTML)
 
   return scheduledMemberNames
 }
