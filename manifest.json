@@ -1,7 +1,7 @@
 {
   "name": "Attendance Checker",
   "manifest_version": 2,
-  "version": "1.1",
+  "version": "1.2",
   "browser_action": {
     "default_title": "Attendance Checker",
     "default_popup": "popup.html"
@@ -12,7 +12,8 @@
         "content_script.js"
       ],
       "matches": [
-        "https://meet.google.com/*"
+        "https://meet.google.com/*",
+        "https://calendar.google.com/*"
       ]
     }
   ],
