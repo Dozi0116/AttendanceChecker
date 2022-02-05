@@ -28,9 +28,21 @@ function sendToContents() {
 function getAttendedMemberList() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(
-      tabs[0].id, { method: 'get' },
+      tabs[0].id, { method: 'get-attended-member' },
       (response) => {
         const memberTextArea = document.getElementById("now-member")
+        memberTextArea.value = response.join(', ')
+      }
+    )
+  })
+}
+
+function getScheduledMemberList() {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(
+      tabs[0].id, { method: 'get-scheduled-member' },
+      (response) => {
+        const memberTextArea = document.getElementById("member")
         memberTextArea.value = response.join(', ')
       }
     )
@@ -70,5 +82,6 @@ function loadData(){
 loadData()
 
 document.getElementById('check').addEventListener('click', sendToContents)
-document.getElementById('get').addEventListener('click', getAttendedMemberList)
+document.getElementById('get-attended-member').addEventListener('click', getAttendedMemberList)
+document.getElementById('get-scheduled-member').addEventListener('click', getScheduledMemberList)
 document.getElementById('save').addEventListener('click', saveMemberList)

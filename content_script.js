@@ -1,17 +1,25 @@
+const elementClasses = {
+    ATTENDED_MEMBER_CLASS: 'zWGUib',
+    SCHEDULED_MEMBER_CLASS: 'cHB8o',
+}
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   switch (request.method) {
     case 'check':
       sendResponse(checkAttendance(request))
       break
-    case 'get':
+    case 'get-attended-member':
       sendResponse(getAttendedMember())
+      break
+    case 'get-scheduled-member':
+      sendResponse(getScheduledMember())
       break
   }
 })
 
 function checkAttendance(request) {
   const requireMemberNames = request.members
-  const attendedMemberDivs = document.getElementsByClassName("zWGUib")
+  const attendedMemberDivs = document.getElementsByClassName(elementClasses.ATTENDED_MEMBER_CLASS)
 
   if(attendedMemberDivs.length == 0) {
     alert('参加者の一覧が見当たりません。参加者一覧を開いていますか？(開いててもこの表示が出るならMeetの仕様が変わったのかもしれない…😇)')
@@ -39,7 +47,7 @@ function checkAttendance(request) {
 }
 
 function getAttendedMember () {
-  const attendedMemberDivs = document.getElementsByClassName("zWGUib")
+  const attendedMemberDivs = document.getElementsByClassName(elementClasses.ATTENDED_MEMBER_CLASS)
 
   if(attendedMemberDivs.length == 0) {
     alert('参加者の一覧が見当たりません。参加者一覧を開いていますか？(開いててもこの表示が出るならMeetの仕様が変わったのかもしれない…😇)')
@@ -49,4 +57,17 @@ function getAttendedMember () {
   const attendedMemberNames = Array.from(attendedMemberDivs).map(span => span.innerHTML)
 
   return attendedMemberNames
+}
+
+function getScheduledMember () {
+  const scheduledMemberDivs = document.getElementsByClassName(elementClasses.SCHEDULED_MEMBER_CLASS)
+
+  if(scheduledMemberDivs.length == 0) {
+    alert('参加予定者の一覧が見当たりません。Googleカレンダーで予定の参加者一覧を開いていますか？(開いててもこの表示が出るならGoogleカレンダーの仕様が変わったのかもしれない…😇)')
+    return []
+  }
+
+  const scheduledMemberNames = Array.from(scheduledMemberDivs).map(span => span.children[0].innerHTML)
+
+  return scheduledMemberNames
 }
